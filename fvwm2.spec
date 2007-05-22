@@ -1,6 +1,6 @@
 %define	name	fvwm2
-%define	version	2.5.18
-%define	release	%mkrel 4
+%define	version	2.5.21
+%define	release	%mkrel 1
 
 Name:		%{name}
 Version:	%{version}
@@ -12,7 +12,7 @@ Source1:    fvwm2.png
 Source4:	fvwm2
 Source8:	system.fvwm2rc
 Source9:	configuration
-Patch:      fvwm-2.5.18-translucent-menus.diff
+Patch:      fvwm-2.5.21-translucent-menus.diff
 License:	GPL
 Group:		Graphical desktop/FVWM based
 Provides:	    fvwm
