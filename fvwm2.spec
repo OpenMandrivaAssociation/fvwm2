@@ -28,6 +28,7 @@ BuildRequires:	gtk+1.2-devel
 BuildRequires:  fribidi-devel
 BuildRequires:  rplay-devel
 BuildRequires:  libstroke-devel
+Buildroot:      %{_tmppath}/%{name}-%{version}
 
 %description
 FVWM2 (the F stands for whatever you want, but the VWM stands for Virtual
