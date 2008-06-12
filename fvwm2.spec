@@ -110,11 +110,15 @@ mv %{buildroot}%{_bindir}/fvwm %{buildroot}%{_bindir}/fvwm2
 %{_libdir}/X11/fvwm2/fvwm/%{version}/FvwmGtk
 
 %post
+%if %mdkversion < 200900
 %update_menus
+%endif
 %make_session
 
 %postun
+%if %mdkversion < 200900
 %clean_menus
+%endif
 %make_session
 
 %clean
