@@ -1,6 +1,6 @@
 %define	name	fvwm2
 %define	version	2.5.21
-%define	release	%mkrel 2
+%define	release	%mkrel 4
 
 Name:		%{name}
 Version:	%{version}
