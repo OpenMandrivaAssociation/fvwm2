@@ -107,12 +107,11 @@ rm -f %{buildroot}%{_bindir}/fvwm2
 mv %{buildroot}%{_bindir}/fvwm %{buildroot}%{_bindir}/fvwm2
 
 # menus
-install -D -m0755 -p %{SOURCE2} \
-	$RPM_BUILD_ROOT%{_bindir}/fvwm-xdg-menu
+install -D -m0755 -p %{SOURCE2} %{buildroot}%{_bindir}/fvwm-xdg-menu
 
 %find_lang %{name} --all-name
 
-%files -f %name.lang
+%files -f %{name}.lang
 %defattr(-,root,root)
 %doc INSTALL README AUTHORS INSTALL.fvwm NEWS ChangeLog docs
 %config(noreplace) %{_sysconfdir}/X11/fvwm2
