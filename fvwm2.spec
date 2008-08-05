@@ -1,21 +1,45 @@
-%define	name	fvwm2
-%define	version	2.5.21
-%define	release	%mkrel 4
+# These are bogus as they're all internal, nothing else can use 'em
+# The perl-Gtk requires is also not really necessary
+# Inspired by Fedora - AdamW 2008/08
+%define _requires_exceptions perl(FvwmCommand)\\|perl(FVWM*\\|perl(General*\\|perl(Gtk*
+%define _provides_exceptions perl(FvwmCommand)\\|perl(FVWM*\\|perl(General*
 
-Name:		%{name}
-Version:	%{version}
-Release:	%{release}
+Name:		fvwm2
+Version:	2.5.26
+Release:	%{mkrel 1}
 Summary:	An improved version of the FVWM X-based window manager
 URL: 		http://www.fvwm.org/
 Source0:	ftp://ftp.fvwm.org/pub/fvwm/version-2/fvwm-%{version}.tar.bz2
-Source1:    fvwm2.png
-Source4:	fvwm2
-Source8:	system.fvwm2rc
-Source9:	configuration
-Patch:      fvwm-2.5.21-translucent-menus.diff
-License:	GPL
+Source1:	fvwm2.png
+Source2:	fvwm2
+Source3:	system.fvwm2rc
+Source4:	configuration
+Source5:	http://www.cl.cam.ac.uk/~pz215/fvwm-scripts/scripts/fvwm-xdg-menu.py
+# From Gentoo, which got it from fvwm-user mailing list; enables fast
+# translucent menus - AdamW 2008/08
+Patch0:		fvwm-2.5.23-translucent-menus.diff
+# From Fedora: use xdg-open instead of 'netscape' - AdamW 2008/08
+Patch1:		fvwm-2.5.21-xdg-open.patch
+# From Fedora: use mimeopen instead of just opening files with an
+# editor - AdamW 2008/08
+Patch2:		fvwm-2.5.21-mimeopen.patch
+# From Fedora: generate menu using fvwm-xdg-menu.py (external source
+# above) instead of hardcoding it
+Patch3:		fvwm-2.5.21-menu-generate.patch
+License:	GPLv2+
 Group:		Graphical desktop/FVWM based
-Provides:	    fvwm
+Requires:	fvwm-icons
+# for fvwm-bug
+Requires:	sendmail-command
+# for fvwm-menu-headlines
+Requires:	xdg-utils
+# for fvwm-menu-xlock
+Requires:	xlockmore
+# for auto-menu generation
+Requires:	ImageMagick pyxdg
+Requires:	xterm
+# for mimeinfo
+Requires:	perl-File-MimeInfo
 BuildRequires:	flex
 BuildRequires:	libx11-devel
 BuildRequires:	libxt-devel
@@ -24,10 +48,11 @@ BuildRequires:	xpm-devel
 BuildRequires:	png-devel
 BuildRequires:	readline-devel
 BuildRequires:	termcap-devel
-BuildRequires:	gtk+1.2-devel
 BuildRequires:  fribidi-devel
 BuildRequires:  rplay-devel
 BuildRequires:  libstroke-devel
+BuildRequires:	librsvg-devel
+BuildRequires:	libxinerama-devel
 Buildroot:      %{_tmppath}/%{name}-%{version}
 
 %description
@@ -35,24 +60,16 @@ FVWM2 (the F stands for whatever you want, but the VWM stands for Virtual
 Window Manager) is an improved version of the FVWM window manager for the X
 Window System and shares the same characteristics as FVWM.
 
-Install the fvwm2 package if you'd like to use the FVWM2 window manager. If you
-install fvwm2, you'll also need to install fvwm2-icons.
-
-%package	gtk
-Summary:	Gtk module for FVWM
-Group:		Graphical desktop/FVWM based
-Requires:	fvwm2
-
-%description	gtk
-Gnome/GTK module for FVWM
-
 %prep
 %setup -q -n fvwm-%{version}
-%patch -p 1
+%patch0 -p0 -b .translucent
+%patch1 -p1 -b .xdgopen
+%patch2 -p1 -b .mime
+%patch3 -p1 -b .generate
 
 %build
 %configure \
-    --disable-gtktest \
+    --disable-gtk \
     --libexecdir=%{_libdir}/X11/fvwm2 \
     --sysconfdir=%{_sysconfdir}/X11/fvwm2 \
     --with-imagepath=%{_datadir}/icons
@@ -68,11 +85,11 @@ install -d -m 755 %{buildroot}%{_iconsdir}
 install -m 644 %{SOURCE1} %{buildroot}%{_iconsdir}
 
 mkdir -p %{buildroot}%{_sysconfdir}/X11/fvwm2
-install -m 644 %{SOURCE8} %{buildroot}%{_sysconfdir}/X11/fvwm2
-install -m 644 %{SOURCE9} %{buildroot}%{_sysconfdir}/X11/fvwm2
+install -m 644 %{SOURCE3} %{buildroot}%{_sysconfdir}/X11/fvwm2
+install -m 644 %{SOURCE4} %{buildroot}%{_sysconfdir}/X11/fvwm2
 
 mkdir -p %{buildroot}%{_sysconfdir}/menu.d
-install -m 755 %{SOURCE4} %{buildroot}%{_sysconfdir}/menu.d
+install -m 755 %{SOURCE2} %{buildroot}%{_sysconfdir}/menu.d
 
 # session stuff
 mkdir -p %{buildroot}%{_sysconfdir}/X11/wmsession.d
@@ -89,7 +106,11 @@ EOF
 rm -f %{buildroot}%{_bindir}/fvwm2
 mv %{buildroot}%{_bindir}/fvwm %{buildroot}%{_bindir}/fvwm2
 
-%find_lang %name --all-name
+# menus
+install -D -m0755 -p %{SOURCE2} \
+	$RPM_BUILD_ROOT%{_bindir}/fvwm-xdg-menu
+
+%find_lang %{name} --all-name
 
 %files -f %name.lang
 %defattr(-,root,root)
@@ -102,12 +123,6 @@ mv %{buildroot}%{_bindir}/fvwm %{buildroot}%{_bindir}/fvwm2
 %{_datadir}/fvwm
 %{_libdir}/X11/fvwm2
 %{_iconsdir}/%{name}.png
-%exclude %{_libdir}/X11/fvwm2/fvwm/%{version}/FvwmGtk
-
-%files gtk
-%defattr(-,root,root)
-%doc modules/FvwmGtk/TODO
-%{_libdir}/X11/fvwm2/fvwm/%{version}/FvwmGtk
 
 %post
 %if %mdkversion < 200900
