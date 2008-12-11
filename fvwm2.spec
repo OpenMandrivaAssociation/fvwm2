@@ -36,7 +36,7 @@ Requires:	xdg-utils
 # for fvwm-menu-xlock
 Requires:	xlockmore
 # for auto-menu generation
-Requires:	ImageMagick pyxdg
+Requires:	imagemagick pyxdg
 Requires:	xterm
 # for mimeinfo
 Requires:	perl-File-MimeInfo
