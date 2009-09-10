@@ -6,7 +6,7 @@
 
 Name:		fvwm2
 Version:	2.5.26
-Release:	%{mkrel 1}
+Release:	%{mkrel 2}
 Summary:	An improved version of the FVWM X-based window manager
 URL: 		http://www.fvwm.org/
 Source0:	ftp://ftp.fvwm.org/pub/fvwm/version-2/fvwm-%{version}.tar.bz2
