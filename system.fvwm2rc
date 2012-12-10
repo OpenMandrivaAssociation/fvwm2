@@ -1,0 +1,7 @@
+# Olivier Thauvin <thauvin@aerov.jussieu.fr>
+# Mandriva fvwm2 main configuration file
+#
+# $Id$
+
+Read /etc/X11/fvwm2/configuration
+Read /etc/X11/fvwm2/menu

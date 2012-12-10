@@ -1,0 +1,14 @@
+#!/bin/sh
+
+if [ "$USER_MENU" = "1" ]; then
+    OUTPUTDIR=$HOME/.fvwm
+else
+    OUTPUTDIR=/etc/X11/fvwm2
+fi
+
+if [ "$VERBOSE" = "1" ]; then
+    echo "writing to $OUTPUTDIR/system.fvwm2rc"
+    /usr/bin/xdg_menu --verbose --format fvwm2 --language "" > $OUTPUTDIR/menu
+else
+    /usr/bin/xdg_menu --format fvwm2 --language "" > $OUTPUTDIR/menu 2>/dev/null
+fi
