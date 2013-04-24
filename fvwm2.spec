@@ -126,8 +126,6 @@ install -D -m0755 -p %{SOURCE2} %{buildroot}%{_bindir}/fvwm-xdg-menu
 %{_libdir}/X11/fvwm2
 %{_iconsdir}/%{name}.png
 
-%post
-%make_session
 
 %postun
 %make_session
