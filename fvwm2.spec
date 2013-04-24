@@ -127,8 +127,6 @@ install -D -m0755 -p %{SOURCE2} %{buildroot}%{_bindir}/fvwm-xdg-menu
 %{_iconsdir}/%{name}.png
 
 
-%postun
-%make_session
 
 %changelog
 * Tue Feb 15 2011 Paulo Ricardo Zanoni <pzanoni@mandriva.com> 2.5.26-3mdv2011.0
