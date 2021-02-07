@@ -5,11 +5,12 @@
 %define __noautoprov 'perl(\\(FvwmCommand\\)|\\(FVWM::|\\(General::)'
 
 Name:		fvwm2
-Version:	2.6.5
-Release:	4
+Version:	2.6.9
+Release:	1
 Summary:	An improved version of the FVWM X-based window manager
 URL: 		http://www.fvwm.org/
-Source0:	ftp://ftp.fvwm.org/pub/fvwm/version-2/fvwm-%{version}.tar.bz2
+Source0:    https://github.com/fvwmorg/fvwm/releases/download/%{version}/fvwm-%{version}.tar.gz
+#Source0:	ftp://ftp.fvwm.org/pub/fvwm/version-2/fvwm-%{version}.tar.bz2
 Source1:	fvwm2.png
 Source2:	fvwm2
 Source3:	system.fvwm2rc
