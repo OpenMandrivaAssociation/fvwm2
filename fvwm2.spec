@@ -117,7 +117,7 @@ install -D -m0755 -p %{SOURCE2} %{buildroot}%{_bindir}/fvwm-xdg-menu
 
 %files -f %{name}.lang
 %defattr(-,root,root)
-%doc INSTALL README AUTHORS INSTALL.fvwm NEWS ChangeLog docs
+#doc INSTALL README AUTHORS INSTALL.fvwm NEWS ChangeLog docs
 %config(noreplace) %{_sysconfdir}/X11/fvwm2
 %config(noreplace) %{_sysconfdir}/menu.d/fvwm2
 %config(noreplace) %{_sysconfdir}/X11/wmsession.d/09fvwm2
