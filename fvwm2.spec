@@ -27,7 +27,7 @@ Patch2:		fvwm-2.5.21-mimeopen.patch
 # From Fedora: generate menu using fvwm-xdg-menu.py (external source
 # above) instead of hardcoding it
 #Patch3:		fvwm-2.5.21-menu-generate.patch
-Patch4:		fvwm-2.5.26-fix-str-fmt.patch
+#Patch4:		fvwm-2.5.26-fix-str-fmt.patch
 License:	GPLv2+
 Group:		Graphical desktop/FVWM based
 Requires:	fvwm-icons
@@ -70,7 +70,7 @@ Window System and shares the same characteristics as FVWM.
 %patch1 -p1 -b .www
 #patch2 -p1 -b .mime
 #patch3 -p1 -b .generate
-%patch4 -p0 -b .str
+#patch4 -p0 -b .str
 
 %build
 %configure2_5x \
