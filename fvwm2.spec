@@ -49,15 +49,17 @@ BuildRequires:	flex
 BuildRequires:	pkgconfig(x11)
 BuildRequires:	pkgconfig(xt)
 BuildRequires:  pkgconfig(xft)
-BuildRequires:	xpm-devel
+BuildRequires:  pkgconfig(xpm)
 BuildRequires:	png-devel
 BuildRequires:	readline-devel
 #BuildRequires:	termcap-devel
 BuildRequires:  fribidi-devel
 #BuildRequires:  rplay-devel
 BuildRequires:  libstroke-devel
+BuildRequires:  xsltproc
 BuildRequires:	pkgconfig(librsvg-2.0)
 BuildRequires:	pkgconfig(xinerama)
+BuildRequires:  pkgconfig(xcursor)
 
 %description
 FVWM2 (the F stands for whatever you want, but the VWM stands for Virtual
@@ -73,17 +75,16 @@ Window System and shares the same characteristics as FVWM.
 #patch4 -p0 -b .str
 
 %build
-%configure2_5x \
-    --disable-gtk \
+%configure \
     --libexecdir=%{_libdir}/X11/fvwm2 \
     --sysconfdir=%{_sysconfdir}/X11/fvwm2 \
     --with-imagepath=%{_datadir}/icons
 
 
-%make LOCALEDIR=%{_datadir}/locale localedir=%{_datadir}/locale
+%make_build LOCALEDIR=%{_datadir}/locale localedir=%{_datadir}/locale
 
 %install
-%{makeinstall_std} LOCALEDIR=%{_datadir}/locale localedir=%{_datadir}/locale
+%make_install LOCALEDIR=%{_datadir}/locale localedir=%{_datadir}/locale
 
 install -d -m 755 %{buildroot}%{_iconsdir}
 install -m 644 %{SOURCE1} %{buildroot}%{_iconsdir}
