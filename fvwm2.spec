@@ -5,11 +5,12 @@
 %define __noautoprov 'perl(\\(FvwmCommand\\)|\\(FVWM::|\\(General::)'
 
 Name:		fvwm2
-Version:	2.6.5
-Release:	3
+Version:	2.6.9
+Release:	1
 Summary:	An improved version of the FVWM X-based window manager
 URL: 		http://www.fvwm.org/
-Source0:	ftp://ftp.fvwm.org/pub/fvwm/version-2/fvwm-%{version}.tar.bz2
+Source0:    https://github.com/fvwmorg/fvwm/releases/download/%{version}/fvwm-%{version}.tar.gz
+#Source0:	ftp://ftp.fvwm.org/pub/fvwm/version-2/fvwm-%{version}.tar.bz2
 Source1:	fvwm2.png
 Source2:	fvwm2
 Source3:	system.fvwm2rc
@@ -25,8 +26,8 @@ Patch1:		fvwm-2.6.5-rosa-www-browser.patch
 Patch2:		fvwm-2.5.21-mimeopen.patch
 # From Fedora: generate menu using fvwm-xdg-menu.py (external source
 # above) instead of hardcoding it
-Patch3:		fvwm-2.5.21-menu-generate.patch
-Patch4:		fvwm-2.5.26-fix-str-fmt.patch
+#Patch3:		fvwm-2.5.21-menu-generate.patch
+#Patch4:		fvwm-2.5.26-fix-str-fmt.patch
 License:	GPLv2+
 Group:		Graphical desktop/FVWM based
 Requires:	fvwm-icons
@@ -48,15 +49,17 @@ BuildRequires:	flex
 BuildRequires:	pkgconfig(x11)
 BuildRequires:	pkgconfig(xt)
 BuildRequires:  pkgconfig(xft)
-BuildRequires:	xpm-devel
+BuildRequires:  pkgconfig(xpm)
 BuildRequires:	png-devel
 BuildRequires:	readline-devel
-BuildRequires:	termcap-devel
+#BuildRequires:	termcap-devel
 BuildRequires:  fribidi-devel
-BuildRequires:  rplay-devel
+#BuildRequires:  rplay-devel
 BuildRequires:  libstroke-devel
+BuildRequires:  xsltproc
 BuildRequires:	pkgconfig(librsvg-2.0)
 BuildRequires:	pkgconfig(xinerama)
+BuildRequires:  pkgconfig(xcursor)
 
 %description
 FVWM2 (the F stands for whatever you want, but the VWM stands for Virtual
@@ -68,21 +71,20 @@ Window System and shares the same characteristics as FVWM.
 %patch0 -p0 -b .translucent
 %patch1 -p1 -b .www
 #patch2 -p1 -b .mime
-%patch3 -p1 -b .generate
-%patch4 -p0 -b .str
+#patch3 -p1 -b .generate
+#patch4 -p0 -b .str
 
 %build
-%configure2_5x \
-    --disable-gtk \
+%configure \
     --libexecdir=%{_libdir}/X11/fvwm2 \
     --sysconfdir=%{_sysconfdir}/X11/fvwm2 \
     --with-imagepath=%{_datadir}/icons
 
 
-%make LOCALEDIR=%{_datadir}/locale localedir=%{_datadir}/locale
+%make_build LOCALEDIR=%{_datadir}/locale localedir=%{_datadir}/locale
 
 %install
-%{makeinstall_std} LOCALEDIR=%{_datadir}/locale localedir=%{_datadir}/locale
+%make_install LOCALEDIR=%{_datadir}/locale localedir=%{_datadir}/locale
 
 install -d -m 755 %{buildroot}%{_iconsdir}
 install -m 644 %{SOURCE1} %{buildroot}%{_iconsdir}
@@ -116,7 +118,7 @@ install -D -m0755 -p %{SOURCE2} %{buildroot}%{_bindir}/fvwm-xdg-menu
 
 %files -f %{name}.lang
 %defattr(-,root,root)
-%doc INSTALL README AUTHORS INSTALL.fvwm NEWS ChangeLog docs
+#doc INSTALL README AUTHORS INSTALL.fvwm NEWS ChangeLog docs
 %config(noreplace) %{_sysconfdir}/X11/fvwm2
 %config(noreplace) %{_sysconfdir}/menu.d/fvwm2
 %config(noreplace) %{_sysconfdir}/X11/wmsession.d/09fvwm2
