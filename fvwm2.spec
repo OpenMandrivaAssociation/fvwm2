@@ -51,7 +51,7 @@ BuildRequires:  pkgconfig(xft)
 BuildRequires:	xpm-devel
 BuildRequires:	png-devel
 BuildRequires:	readline-devel
-BuildRequires:	termcap-devel
+#BuildRequires:	termcap-devel
 BuildRequires:  fribidi-devel
 #BuildRequires:  rplay-devel
 BuildRequires:  libstroke-devel
