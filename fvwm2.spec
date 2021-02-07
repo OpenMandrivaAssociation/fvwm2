@@ -6,7 +6,7 @@
 
 Name:		fvwm2
 Version:	2.6.5
-Release:	3
+Release:	4
 Summary:	An improved version of the FVWM X-based window manager
 URL: 		http://www.fvwm.org/
 Source0:	ftp://ftp.fvwm.org/pub/fvwm/version-2/fvwm-%{version}.tar.bz2
@@ -53,7 +53,7 @@ BuildRequires:	png-devel
 BuildRequires:	readline-devel
 BuildRequires:	termcap-devel
 BuildRequires:  fribidi-devel
-BuildRequires:  rplay-devel
+#BuildRequires:  rplay-devel
 BuildRequires:  libstroke-devel
 BuildRequires:	pkgconfig(librsvg-2.0)
 BuildRequires:	pkgconfig(xinerama)
