@@ -4,6 +4,8 @@
 %define __noautoreq 'perl(\\(FvwmCommand\\)|\\(FVWM::|\\(General::)'
 %define __noautoprov 'perl(\\(FvwmCommand\\)|\\(FVWM::|\\(General::)'
 
+%define _disable_ld_no_undefined 1
+
 Name:		fvwm2
 Version:	2.7.0
 Release:	1
