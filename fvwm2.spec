@@ -5,7 +5,7 @@
 %define __noautoprov 'perl(\\(FvwmCommand\\)|\\(FVWM::|\\(General::)'
 
 Name:		fvwm2
-Version:	2.6.9
+Version:	2.7.0
 Release:	1
 Summary:	An improved version of the FVWM X-based window manager
 URL: 		http://www.fvwm.org/
