@@ -1,0 +1,21 @@
+From: hundertzwei <46927478+hundertzwei@users.noreply.github.com>
+Date: Wed, 19 Jul 2023 14:50:17 +0200
+Subject: [PATCH] Update FvwmAuto.c
+
+from gcc-12 up, this modul will terminated with *** buffer overflow detected ***.
+That's because the sprintf further down will copy not only the string, but also a linefeed and a terminating null-byte at the end of the buffer.
+This is two times off by one.
+
+diff --git a/modules/FvwmAuto/FvwmAuto.c b/modules/FvwmAuto/FvwmAuto.c
+index d789797a..8c3a1f17 100644
+--- a/modules/FvwmAuto/FvwmAuto.c
++++ b/modules/FvwmAuto/FvwmAuto.c
+@@ -344,7 +344,7 @@ main(int argc, char **argv)
+ 	{
+ 		len += 32;
+ 	}
+-	buf = safemalloc(len);
++	buf = safemalloc(len + 1 + 1 ); // '\n' '\0' at the end of the string
+ 
+ 	while (!isTerminated)
+ 	{
