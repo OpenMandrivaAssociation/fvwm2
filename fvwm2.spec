@@ -4,8 +4,10 @@
 %define __noautoreq 'perl(\\(FvwmCommand\\)|\\(FVWM::|\\(General::)'
 %define __noautoprov 'perl(\\(FvwmCommand\\)|\\(FVWM::|\\(General::)'
 
+%define _disable_ld_no_undefined 1
+
 Name:		fvwm2
-Version:	2.6.9
+Version:	2.7.0
 Release:	1
 Summary:	An improved version of the FVWM X-based window manager
 URL: 		https://www.fvwm.org/
@@ -16,18 +18,16 @@ Source2:	fvwm2
 Source3:	system.fvwm2rc
 Source4:	configuration
 Source5:	http://www.cl.cam.ac.uk/~pz215/fvwm-scripts/scripts/fvwm-xdg-menu.py
-# From Gentoo, which got it from fvwm-user mailing list; enables fast
-# translucent menus - AdamW 2008/08
-Patch0:		fvwm-2.5.26-translucent-menus.diff
-# From Fedora: use xdg-open instead of 'netscape' - AdamW 2008/08
-Patch1:		fvwm-2.6.5-rosa-www-browser.patch
-# From Fedora: use mimeopen instead of just opening files with an
-# editor - AdamW 2008/08
-Patch2:		fvwm-2.5.21-mimeopen.patch
-# From Fedora: generate menu using fvwm-xdg-menu.py (external source
-# above) instead of hardcoding it
-#Patch3:		fvwm-2.5.21-menu-generate.patch
-#Patch4:		fvwm-2.5.26-fix-str-fmt.patch
+Patch0:         fvwm-2.5.26-translucent-menus.diff
+# Backported from https://github.com/fvwmorg/fvwm3/pull/683
+Patch5:		fvwm-0005-Fix-for-lock-recusion-in-handle_all_expose.patch
+# Submitted upstream as https://github.com/fvwmorg/fvwm/pull/100
+Patch6:		fvwm-0006-Fixes-for-C99-compatibility.patch
+# Submitted upstream as https://github.com/fvwmorg/fvwm/pull/100
+Patch7:		fvwm-0007-Fixes-for-C99-compatibility.patch
+# Submitted upstream as https://github.com/fvwmorg/fvwm/pull/103
+Patch8:		fvwm-0008-Update-FvwmAuto.c.patch
+
 License:	GPLv2+
 Group:		Graphical desktop/FVWM based
 Requires:	fvwm-icons
@@ -67,14 +67,10 @@ Window Manager) is an improved version of the FVWM window manager for the X
 Window System and shares the same characteristics as FVWM.
 
 %prep
-%setup -q -n fvwm-%{version}
-%patch0 -p0 -b .translucent
-%patch1 -p1 -b .www
-#patch2 -p1 -b .mime
-#patch3 -p1 -b .generate
-#patch4 -p0 -b .str
+%autosetup -n fvwm-%{version} -p1
 
 %build
+autoreconf -vfi
 %configure \
     --libexecdir=%{_libdir}/X11/fvwm2 \
     --sysconfdir=%{_sysconfdir}/X11/fvwm2 \
