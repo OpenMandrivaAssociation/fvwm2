@@ -71,12 +71,12 @@ Window System and shares the same characteristics as FVWM.
 
 %prep
 %setup -q -n fvwm-%{version}
-%patch0 -p0 -b .translucent
-%patch1 -p1 -b .www
+%patch0 -p 0 -b .translucent
+%patch1 -p 1 -b .www
 #patch2 -p1 -b .mime
 #patch3 -p1 -b .generate
 #patch4 -p0 -b .str
-%patch5 -p1
+%patch5 -p 1
 
 %build
 %configure \
