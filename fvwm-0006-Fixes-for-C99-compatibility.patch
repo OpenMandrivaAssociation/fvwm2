@@ -1,0 +1,50 @@
+From: Florian Weimer <fweimer@redhat.com>
+Date: Thu, 24 Nov 2022 13:10:29 +0100
+Subject: [PATCH] Fixes for C99 compatibility
+
+Do not check that the compiler supports implicit ints without errors.
+Add a missing #include <unistd.h>.
+
+Submitted upstream: <https://github.com/fvwmorg/fvwm/pull/100>
+
+Related to:
+
+  <https://fedoraproject.org/wiki/Changes/PortingToModernC>
+  <https://fedoraproject.org/wiki/Toolchain/PortingToModernC>
+
+diff --git a/acinclude.m4 b/acinclude.m4
+index 8b74ff1e..4dee2abe 100644
+--- a/acinclude.m4
++++ b/acinclude.m4
+@@ -30,7 +30,7 @@ if test "$ac_cv_func_select" = yes; then
+ #ifdef HAVE_SYS_SOCKET_H
+ #include <sys/socket.h>
+ #endif],
+-[extern select ($ac_cv_type_fd_set_size_t,
++[extern int select ($ac_cv_type_fd_set_size_t,
+  $ac_cv_type_fd_set *,	$ac_cv_type_fd_set *, $ac_cv_type_fd_set *,
+  $ac_type_timeval *);],
+ [ac_found=yes ; break 3],ac_found=no)
+@@ -1154,6 +1154,9 @@ AC_DEFUN([AM_SAFETY_CHECK_MKSTEMP],[
+ #include <stdio.h>
+ #include <stdlib.h>
+ #include <string.h>
++#ifdef HAVE_UNISTD_H
++#include <unistd.h>
++#endif
+ int main(void)
+ {
+   char template[128];
+diff --git a/configure.ac b/configure.ac
+index 1389d564..cd73b925 100644
+--- a/configure.ac
++++ b/configure.ac
+@@ -220,7 +220,7 @@ AC_MINIX
+ 
+ # catch -Werror and similar options when running configure
+ AC_TRY_COMPILE([#include <stdio.h>],
+-[int i; static j; int *p; char *c;
++[int i; int *p; char *c;
+   switch (*p = p = *c) { case 0: printf("%Q", c, p); }
+   *c = &i; c = p;
+   while (1 || (unsigned int)3 >= 0 || ((int)-1) == ((unsigned int)1));
