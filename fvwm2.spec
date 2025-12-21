@@ -45,6 +45,11 @@ Requires:	xterm
 Requires:	xdg-compliance-menu
 # for mimeinfo
 #Requires:	perl-File-MimeInfo
+BuildRequires:	autoconf
+BuildRequires:	automake
+BuildRequires:	libtool-base
+BuildRequires:	slibtool
+BuildRequires:	make
 BuildRequires:	flex
 BuildRequires:	pkgconfig(x11)
 BuildRequires:	pkgconfig(xt)
